@@ -45,7 +45,7 @@ public class BoostrapData  implements CommandLineRunner {
         Author brandonSaved = authorRepository.save(brandon);
         Book mistbornSaved = bookRepository.save(mistborn);
         Book elantrisSaved = bookRepository.save(elantris);
-        Publisher savedPublisher = publisherRepository.save(tor);
+        Publisher savedTor = publisherRepository.save(tor);
 
         Author jordan = new Author();
         jordan.setFirstName("Robert");
@@ -55,15 +55,34 @@ public class BoostrapData  implements CommandLineRunner {
         wheel.setTitle("Wheel of Time");
         wheel.setIsbn("390672");
 
+        Publisher somePublisher = new Publisher();
+        somePublisher.setPublisherName("Some");
+
         Author jordanSaved = authorRepository.save(jordan);
-        Book bookSaved = bookRepository.save(wheel);
+        Book wheelSaved = bookRepository.save(wheel);
+        Publisher savedSomePublisher = publisherRepository.save(somePublisher);
 
-        brandonSaved.getBooks().add(mistborn);
-        brandonSaved.getBooks().add(elantris);
-        jordanSaved.getBooks().add(wheel);
+        brandonSaved.getBooks().add(mistbornSaved);
+        brandonSaved.getBooks().add(elantrisSaved);
+        jordanSaved.getBooks().add(wheelSaved);
 
-        authorRepository.save(jordan);
-        authorRepository.save(brandon);
+        mistborn.getAuthors().add(brandonSaved);
+        elantris.getAuthors().add(brandonSaved);
+        wheel.getAuthors().add(jordanSaved);
+        wheel.getAuthors().add(brandonSaved);
+
+        mistbornSaved.setPublisher(savedTor);
+        elantrisSaved.setPublisher(savedTor);
+        wheelSaved.setPublisher(somePublisher);
+        savedTor.getBooks().add(mistbornSaved);
+        savedTor.getBooks().add(elantrisSaved);
+        savedSomePublisher.getBooks().add(wheel);
+
+        authorRepository.save(jordanSaved);
+        authorRepository.save(brandonSaved);
+        bookRepository.save(mistbornSaved);
+        bookRepository.save(elantrisSaved);
+        bookRepository.save(wheelSaved);
 
         System.out.println("In Bootstrap");
         System.out.println("Books: " + bookRepository.count());

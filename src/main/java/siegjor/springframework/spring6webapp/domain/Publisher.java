@@ -2,6 +2,9 @@ package siegjor.springframework.spring6webapp.domain;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 public class Publisher {
     @Id
@@ -13,6 +16,16 @@ public class Publisher {
     private String state;
     private String zipCode;
 
+    @OneToMany(mappedBy = "publisher")
+    private Set<Book> books = new HashSet<>();
+
+    public Set<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(Set<Book> books) {
+        this.books = books;
+    }
 
     public Long getId() {
         return id;
